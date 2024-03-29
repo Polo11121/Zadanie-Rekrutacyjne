@@ -20,7 +20,7 @@ export const PaginationButtons = ({
       <Tooltip
         className="capitalize whitespace-nowrap	mt-3"
         placement="bottom"
-        content="Next Page"
+        content="Previous Page"
       >
         Prev
       </Tooltip>
