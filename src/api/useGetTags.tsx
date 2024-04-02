@@ -1,6 +1,11 @@
 import { axios } from "@/axios";
 import { Tag, SortOrder } from "@/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { GenericAbortSignal } from "axios";
+
+type QueryFnSignal = {
+  signal?: GenericAbortSignal;
+};
 
 type Response = {
   items: Tag[];
@@ -19,8 +24,12 @@ type SortParams = {
 export const useGetTags = (params: SortParams) => {
   const queryClient = useQueryClient();
 
-  const getTags = async (params: SortParams): Promise<Response> => {
+  const getTags = async (
+    params: SortParams,
+    signal?: GenericAbortSignal
+  ): Promise<Response> => {
     const response = await axios.get("/tags", {
+      signal,
       params: {
         ...params,
         site: "stackoverflow",
@@ -34,7 +43,7 @@ export const useGetTags = (params: SortParams) => {
 
   const data = useQuery({
     queryKey: ["tags", ...Object.values(params)],
-    queryFn: () => getTags(params),
+    queryFn: ({ signal }: QueryFnSignal) => getTags(params, signal),
   });
 
   if (data.data?.has_more && !data.isLoading) {
