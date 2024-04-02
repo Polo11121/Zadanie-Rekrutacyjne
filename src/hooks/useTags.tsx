@@ -1,7 +1,7 @@
 import { useGetStoreActions, useGetStoreState } from "@/store";
 import { useGetTags } from "@/api/useGetTags";
 
-export const useSearch = () => {
+export const useTags = () => {
   const { pageSize, page, sortField, sortOrder } = useGetStoreState();
   const { setPageSize, setPage, setSortField, changeSortOrder } =
     useGetStoreActions();
